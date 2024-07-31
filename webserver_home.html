@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Interface</title>
+</head>
+<body>
+    <div class="control-panel">
+        <button class="selected">HOME</button>
+        <p><a href="/add_id"><button class="no_select">ADD ID</button></a></p>
+        <p><a href="/setting"><button class="no_select">SETTINGS</button></a></p>
+    </div>
+    <div class="main-content">
+        <div id="clock">11:39:23 PM</div>
+        <button class="view-data-button" onclick="excel()">DATA</button>
+        <div class="on-off-buttons">
+            <p><a href="/reset"><button class="on-button">RESET</button></a></p>
+            <p><a href="/logout"><button class="off-button">LOGOUT</button></a></p>
+        </div>
+        <div class="info">
+            <p>SUM: %SUM%</p>
+            <p>CHECK IN: %CHECKIN%</p>
+        </div>
+        <div class="date" id="currentDate">Wednesday, July 10, 2024</div>
+    </div>
+
+    <script>
+        function excel() {
+            window.location.href = "%URL%";
+        }
+        function updateClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            const clockStr = `${hours}:${minutes}:${seconds} ${ampm}`;
+            document.getElementById('clock').textContent = clockStr;
+        }
+
+        function updateDate() {
+            const now = new Date();
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const dayName = days[now.getDay()];
+            const day = now.getDate();
+            const month = now.getMonth() + 1; // Months are zero-indexed
+            const year = now.getFullYear();
+            const dateStr = `${dayName}, ${month} / ${day} / ${year}`;
+            document.getElementById('currentDate').textContent = dateStr;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+        updateDate();
+    </script>
+</body>
+</html>
